@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, REST, Routes } from "discord.js"
 import { createManifestFromTemplate } from "./src/functions/manifestTamplate.js";
-
+import * as dotenv from "dotenv"
+dotenv.config()
 
 const client = new Client({
     intents: [
@@ -42,7 +43,7 @@ const commands = [
 ]
 
 
-const rest = new REST({ version: "10" }).setToken("MTAzOTk2ODkzMDg4NzkxMzU1Mg.GW37eV.h6MwRL4Tuh2-guuBuSQZkz38GDUGprxQcKGe2I");
+const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
 
 (async () => {
@@ -68,4 +69,4 @@ client.on("interactionCreate", async (data) => {
 })
 
 
-client.login("MTAzOTk2ODkzMDg4NzkxMzU1Mg.GW37eV.h6MwRL4Tuh2-guuBuSQZkz38GDUGprxQcKGe2I")
+client.login(process.env.TOKEN)

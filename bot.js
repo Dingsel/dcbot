@@ -38,6 +38,10 @@ const commands = [
         ]
     },
     {
+        name: "ping",
+        description: "Get the bot ping"
+    },
+    {
         name: "boop",
         description: "Boop!"
     },
@@ -83,6 +87,13 @@ client.on("interactionCreate", async (data) => {
                 content: ":dizzy: **Boop!** :dizzy:",
                 ephemeral: true
             })
+            break;
+        }
+        case "ping": {
+            const ping = await data.reply("🧠 Calculating Latency...")
+            const edit = ping.createdTimestamp - data.createdTimestamp
+
+            await data.editReply(`Pong! 🏓\nBot Ping: ${edit}`)
             break;
         }
         case "uuid": {

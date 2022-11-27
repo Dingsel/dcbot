@@ -97,7 +97,7 @@ client.on("interactionCreate", async (data) => {
             })
             const edit = ping.createdTimestamp - data.createdTimestamp
 
-            await data.editReply(`Pong! 🏓\nBot Ping: ${edit}`)
+            await data.editReply(`Pong! 🏓\nBot Ping: ​\`${edit}ms\``)
             break;
         }
         case "uuid": {

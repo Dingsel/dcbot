@@ -3,7 +3,6 @@ import { v4 } from "uuid";
 function findData(name, data) {
   const found = data?.find(x => x.name == name)
   if (!found) return null
-  console.log(found)
   return found.value
 }
 

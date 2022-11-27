@@ -72,17 +72,27 @@ client.once('ready', () => {
 client.on("interactionCreate", async (data) => {
     switch (data.commandName) {
         case "manifest": {
-            data.reply(createManifestFromTemplate(data.options.data))
+            data.reply({
+                content: createManifestFromTemplate(data.options.data),
+                ephemeral: true
+            })
             break;
         }
         case "boop": {
-            data.reply(":dizzy: **Boop!** :dizzy:")
+            data.reply({
+                content: ":dizzy: **Boop!** :dizzy:",
+                ephemeral: true
+            })
             break;
         }
         case "uuid": {
-            let value = Math.abs(data.options.data.find(x => x.name == "ammount").value)
+            let reply = data.options?.data?.find(x => x.name == "amount")
+            let value = Math.abs(reply?.value ?? 1)
             if (11 <= value) value = 10
-            data.reply(generateUUID(Number(value ?? 1)))
+            data.reply({
+                content: generateUUID(Number(value ?? 1)),
+                ephemeral: true,
+            })
             break;
         }
     }

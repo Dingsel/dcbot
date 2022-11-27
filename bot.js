@@ -90,7 +90,11 @@ client.on("interactionCreate", async (data) => {
             break;
         }
         case "ping": {
-            const ping = await data.reply("🧠 Calculating Latency...")
+            const ping = await data.reply({
+                content : "🧠 Calculating Latency...",
+                ephemeral: true,
+                fetchReply: true
+            })
             const edit = ping.createdTimestamp - data.createdTimestamp
 
             await data.editReply(`Pong! 🏓\nBot Ping: ${edit}`)

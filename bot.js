@@ -1,117 +1,15 @@
-import { Client, GatewayIntentBits, REST, Routes } from "discord.js"
-import { createManifestFromTemplate } from "./src/functions/manifestTamplate.js";
+// this is for setting up the bot clients
+import { Client, Collection, Partials } from 'discord.js'
+const client = new Client({intents: 3276799}, {partials: [Partials.Message, Partials.Channel, Partials.Reaction]})
+
+export {client}
+client.commands = new Collection() // this is adding the global vars
+
+import('./src/handlers/commands.js') // loads the bot commands
+import('./src/handlers/events.js') // loads the bot events
+
 import * as dotenv from "dotenv"
-import { generateUUID } from "./src/functions/generateUuids.js";
-dotenv.config()
+dotenv.config() // configures dotenv
 
-const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-    ]
-});
-
-
-const commands = [
-    {
-        name: "manifest",
-        description: "Generates a manifest file for you!",
-        options: [
-            {
-                name: "name",
-                description: "Set the Name of the Pack",
-                type: 3,
-                required: false
-            },
-            {
-                name: "description",
-                description: "Set the description point for the manifest",
-                type: 3,
-                required: false
-            },
-            {
-                name: "entry_point",
-                description: "Set the entry point for the manifest",
-                type: 3,
-                required: false
-            }
-        ]
-    },
-    {
-        name: "ping",
-        description: "Get the bot ping"
-    },
-    {
-        name: "boop",
-        description: "Boop!"
-    },
-    {
-        name: "uuid",
-        description: "Generates a unique identifier",
-        options: [
-            {
-                name: "amount",
-                description: "Set the number of uuid's to generate",
-                type: 4,
-                required: false
-            }
-        ]
-    }
-]
-
-
-const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
-
-
-(async () => {
-    await rest.put(Routes.applicationCommands("1039968930887913552"), { body: commands })
-})().catch(e => console.error(e))
-
-
-client.once('ready', () => {
-    console.log('Ready!');
-});
-
-
-client.on("interactionCreate", async (data) => {
-    switch (data.commandName) {
-        case "manifest": {
-            data.reply({
-                content: createManifestFromTemplate(data.options.data),
-                ephemeral: true
-            })
-            break;
-        }
-        case "boop": {
-            data.reply({
-                content: ":dizzy: **Boop!** :dizzy:",
-                ephemeral: true
-            })
-            break;
-        }
-        case "ping": {
-            const ping = await data.reply({
-                content : "🧠 Calculating Latency...",
-                ephemeral: true,
-                fetchReply: true
-            })
-            const edit = ping.createdTimestamp - data.createdTimestamp
-
-            await data.editReply(`Pong! 🏓\nBot Ping: ​\`${edit}ms\``)
-            break;
-        }
-        case "uuid": {
-            let reply = data.options?.data?.find(x => x.name == "amount")
-            let value = Math.abs(reply?.value ?? 1)
-            if (11 <= value) value = 10
-            data.reply({
-                content: generateUUID(Number(value ?? 1)),
-                ephemeral: true,
-            })
-            break;
-        }
-    }
-})
-
-
+// logs in the bot
 client.login(process.env.TOKEN)

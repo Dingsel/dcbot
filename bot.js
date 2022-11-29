@@ -12,4 +12,4 @@ import * as dotenv from "dotenv"
 dotenv.config() // configures dotenv
 
 // logs in the bot
-client.login('MTAxMDUxMTU1ODU0NTI2MDU2NQ.GqrS3y.R6FKcX8_VDAt4wNIM7FjoofFeUB8iL9HuGKcyU')
+client.login(process.env.TOKEN)

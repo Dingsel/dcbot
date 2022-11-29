@@ -1,7 +1,7 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
-const { v4: uuid } = require('uuid')
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
+import { v4 } from 'uuid'
 
-module.exports = {
+const command = {
     name: "uuid",
     description: "Generates a unique identifier",
     options: [
@@ -23,7 +23,7 @@ module.exports = {
         function generateUUID(amt) {
             let string = ""
             for (let i = 0; i < amt; i++) {
-                string += `\`\`\`j\n${uuid()}\`\`\``
+                string += `\`\`\`j\n${v4()}\`\`\``
             }
             return (string)
         }
@@ -36,3 +36,5 @@ module.exports = {
         })
     }  
 }
+
+export {command}

@@ -1,4 +1,4 @@
-module.exports = {
+const command = {
     name: 'boop',
     description: 'Boop!',
     async execute(interaction) {
@@ -10,3 +10,5 @@ module.exports = {
 
     }
 }
+
+export {command}

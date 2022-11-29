@@ -1,7 +1,7 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
-const { v4: uuid } = require('uuid')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+import { v4 } from 'uuid'
 
-module.exports = {
+const command = {
     name: "manifest",
     description: "Generates a manifest file for you!",
     options: [
@@ -39,14 +39,14 @@ module.exports = {
     "header": {
     "name": "${name}",
     "description": "${description}",
-    "uuid": "${uuid()}",
+    "uuid": "${v4()}",
     "version": [0,0,1],
-    "min_engine_version": [1,19,0]
+    "min_engine_version": [1, 19, 50]
     },
     "modules": [
     {
         "type": "data",
-        "uuid": "${uuid()}",
+        "uuid": "${v4()}",
         "version": "[1,0,0]"
     },
     {
@@ -60,7 +60,7 @@ module.exports = {
     "dependencies": [
     {
         "module_name": "@minecraft/server",
-        "version": "1.0.0-beta"
+        "version": "1.1.0-beta"
     },
     {
         "module_name": "@minecraft/server-gametest",
@@ -81,3 +81,5 @@ module.exports = {
 
     }
 }
+
+export {command}

@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require('discord.js')
+import { EmbedBuilder } from 'discord.js'
 
-module.exports = {
+const command = {
     name: "ping",
     description: "Get the bot and API latency",
     async execute(interaction, client) {
@@ -25,3 +25,5 @@ module.exports = {
 
     }
 }
+
+export {command}

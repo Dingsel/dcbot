@@ -1,17 +1,15 @@
-require('events').defaultMaxListeners = 40; // see this for info on event listeners: https://nodejs.org/api/events.html
-
 // this is for setting up the bot clients
-const { Client, Collection, Partials } = require('discord.js')
-const client = new Client({intents: 3276799}, { partials: [Partials.Message, Partials.Channel, Partials.Reaction] })
+import { Client, Collection, Partials } from 'discord.js'
+const client = new Client({intents: 3276799}, {partials: [Partials.Message, Partials.Channel, Partials.Reaction]})
 
-module.exports = client
+export {client}
+client.commands = new Collection() // this is adding the global vars
 
-// this is adding the global variables for use in other files
-client.commands = new Collection();
+import('./src/handlers/commands.js') // loads the bot commands
+import('./src/handlers/events.js') // loads the bot events
 
-require('./src/handlers/commands')(client) // loads the bot commands
-require('./src/handlers/events')(client) // loads the bot events
-require('dotenv').config() // configures dotenv
+import * as dotenv from "dotenv"
+dotenv.config() // configures dotenv
 
 // logs in the bot
-client.login(process.env.TOKEN)
+client.login('MTAxMDUxMTU1ODU0NTI2MDU2NQ.GqrS3y.R6FKcX8_VDAt4wNIM7FjoofFeUB8iL9HuGKcyU')

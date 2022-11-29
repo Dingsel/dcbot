@@ -1,4 +1,4 @@
-module.exports = {
+const event = {
     name: "messageCreate",
     async execute(message, client) {
 
@@ -6,3 +6,5 @@ module.exports = {
 
     }
 }
+
+export {event}

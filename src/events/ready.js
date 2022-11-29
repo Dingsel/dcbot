@@ -1,6 +1,6 @@
-const { ActivityType } = require('discord.js');
+import { ActivityType } from 'discord.js'
 
-module.exports = {
+const event = {
     name: "ready",
     once: true,
     async execute(client) {
@@ -12,3 +12,5 @@ module.exports = {
         
     }
 };
+
+export {event}

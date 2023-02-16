@@ -34,11 +34,11 @@ client.on("interactionCreate", async (data) => {
                 let embed = new EmbedBuilder()
 
                 try {
-
                     const formated = content.split("```js")[1].split("```")[0]
-                    embed.setColor("Red")
+                    const dbg = await debug(formated)
+                    embed.setColor(dbg == "No Errors found!" ? "Green" : "Red")
                     embed.setTitle("Debug resultes")
-                    embed.setDescription(await debug(formated));
+                    embed.setDescription(dbg);
 
                 } catch (error) {
                     embed.setColor("Red")
@@ -65,7 +65,10 @@ async function debug(str) {
 
     const results = await linter.lintText(str)
 
+    if (results[0].errorCount == 0) return "No Errors found!"
+
     const formatter = await linter.loadFormatter("compact");
+
     const resultText = formatter.format(results);
 
     console.warn(resultText)

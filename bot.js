@@ -1,15 +1,74 @@
-// this is for setting up the bot clients
-import { Client, Collection, Partials } from 'discord.js'
-const client = new Client({intents: 3276799}, {partials: [Partials.Message, Partials.Channel, Partials.Reaction]})
-
-export {client}
-client.commands = new Collection() // this is adding the global vars
-
-import('./src/handlers/commands.js') // loads the bot commands
-import('./src/handlers/events.js') // loads the bot events
-
 import * as dotenv from "dotenv"
-dotenv.config() // configures dotenv
+import { Client, EmbedBuilder, REST, Routes } from 'discord.js'
+import { ESLint } from "eslint"
 
-// logs in the bot
+
+dotenv.config()
+const client = new Client({ intents: ['MessageContent', 'GuildMessages'] })
+
+const commands = [
+    {
+        name: "debug",
+        description: "Checks your code for errors!"
+    }
+]
+
+const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+
+(async () => {
+    await rest.put(Routes.applicationCommands("1039968930887913552"), { body: commands })
+})().catch(e => console.error(e))
+
+//slash commands
+client.on("interactionCreate", async (data) => {
+    const d = data
+    switch (d.commandName) {
+        case "debug": {
+            //const input = data.options._hoistedOptions.find((x) => x.name == "code").value
+            //debug(input)
+            const channel = await client.channels.fetch(d.channelId)
+            channel.messages.fetch({ limit: 1 }).then(async messages => {
+                let lastMessage = messages.first();
+                const content = lastMessage.content
+
+                let embed = new EmbedBuilder()
+
+                try {
+
+                    const formated = content.split("```js")[1].split("```")[0]
+                    embed.setColor("Red")
+                    embed.setTitle("Debug resultes")
+                    embed.setDescription(await debug(formated));
+
+                } catch (error) {
+                    embed.setColor("Red")
+                    embed.setTitle("No code found")
+                    embed.setDescription("The last message was not formatted correctly.\nPlease use:\n` ```js      \n//Your Code\n```         `\nto format the message.");
+                }
+
+                data.reply({
+                    embeds: [embed]
+                })
+            })
+        }
+    }
+})
+
+client.once('ready', () => {
+    console.log('Ready!');
+});
+
 client.login(process.env.TOKEN)
+
+async function debug(str) {
+    const linter = new ESLint({ fix: true })
+
+    const results = await linter.lintText(str)
+
+    const formatter = await linter.loadFormatter("compact");
+    const resultText = formatter.format(results);
+
+    console.warn(resultText)
+
+    return resultText
+}

@@ -65,7 +65,8 @@ async function debug(str) {
 
     const results = await linter.lintText(str)
 
-    if (results[0].errorCount == 0) return "No Errors found!"
+
+    if (results[0].errorCount == 0) return "No Errors Found!"
 
     const formatter = await linter.loadFormatter("compact");
 

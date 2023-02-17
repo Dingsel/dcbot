@@ -34,10 +34,10 @@ client.on("interactionCreate", async (data) => {
                 let embed = new EmbedBuilder()
 
                 try {
-                    const formated = content.split("```js")[1].split("```")[0]
+                    const formated = content.split("```js\n")[1].split("```")[0]
                     const dbg = await debug(formated)
-                    embed.setColor(dbg == "No Errors found!" ? "Green" : "Red")
-                    embed.setTitle("Debug resultes")
+                    embed.setColor(dbg == "No Errors Found!" ? "Green" : "Red")
+                    embed.setTitle("Debug Results")
                     embed.setDescription(dbg);
 
                 } catch (error) {

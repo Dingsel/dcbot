@@ -36,7 +36,7 @@ client.on("interactionCreate", async (data) => {
                 try {
                     const formated = content.split("```js\n")[1].split("```")[0]
                     const dbg = await debug(formated)
-                    embed.setColor(dbg == "No Errors found!" ? "Green" : "Red")
+                    embed.setColor(dbg == "No Errors Found!" ? "Green" : "Red")
                     embed.setTitle("Debug resultes")
                     embed.setDescription(dbg);
 
@@ -65,7 +65,8 @@ async function debug(str) {
 
     const results = await linter.lintText(str)
 
-    if (results[0].errorCount == 0) return "No Errors found!"
+
+    if (results[0].errorCount == 0) return "No Errors Found!"
 
     const formatter = await linter.loadFormatter("compact");
 

@@ -16,7 +16,7 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "install": "^0.13.0",
-    "npm": "^9.4.2",
+    "npm": "^9.8.1",
     "typescript.api": "^0.7.7",
     "uuid": "^9.0.0"
   },
